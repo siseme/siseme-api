@@ -1,0 +1,73 @@
+server:
+  port: 8080
+  compression:
+    enabled: true
+    mime-types: application/json
+    min-response-size: 2048
+  tomcat:
+    max-threads: 256
+
+spring:
+  profiles:
+    active: local
+
+  main:
+    allow-bean-definition-overriding: true
+
+  social:
+    facebook:
+      appId: '{cipher}8fd6ced8356812392ed05ef693a99c4e2b71e81b1bd9679fcf5a67dc69b178cef35157ac65ede21cd38f7656e348c1c6'
+      appSecret: '{cipher}db377891775e58885bf3d112e675450872a2aa1706d09f2587b9f61e2c77fcb6dfe36aed40863cea28dc6c3aae78ab3e8ddf742f7e4efd62575bde05a61f4f3f'
+
+
+  devtools:
+    livereload:
+      enabled: true
+
+  freemarker:
+    cache: false
+
+  cache:
+    caffeine:
+      spec: maximumSize=1000, expireAfterAccess=300s
+
+  security:
+    user:
+      name: admin
+      password: test
+
+logging:
+  level:
+    me.sise.api.scheduler.service: DEBUG
+
+
+ribbon:
+  MaxAutoRetries: 1
+  MaxAutoRetriesNextServer: 0
+  ReadTimeout: 2500
+  ConnectTimeout: 500
+
+feign:
+  hystrix:
+    enabled: true
+  client:
+    config:
+      accountKitApi:
+        connectTimeout: 5000
+        readTimeout: 5000
+        loggerLevel: basic
+
+aptTradeApi:
+  ribbon:
+    MaxAutoRetries: 0
+    MaxAutoRetriesNextServer: 0
+    ReadTimeout: 2000
+    ConnectTimeout: 500
+
+auth:
+  jwt:
+    key: '{cipher}b65936bf613b495ce13bc23823e38c09bfd96d7f3768765db43c08051a29ba51'
+
+gov:
+  api:
+    key: '{cipher}5886f103a07181b1f79844458233cdde67c850806a41710deb3f24bbff08a883630eb73cd127d9f0a4ca7a7f347579c6fc1e06311e7e50e6621ec05c03c291abf34d2891d7dc159756c9b1837a7c51b9768d54be9b0ee607db171e5c2058b6f34fb7bbd129f37de94dd615eef9eee61c'
