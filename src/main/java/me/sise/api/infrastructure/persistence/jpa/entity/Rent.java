@@ -22,8 +22,7 @@ public class Rent extends BaseEntity {
     private TradeType tradeType;
     @Enumerated(EnumType.STRING)
     private BuildingType buildingType;
-    @Enumerated(EnumType.ORDINAL)
-    private MonthType monthType;
+    private String day;
     private String date;
     private String since;
     private Double area;

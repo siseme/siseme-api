@@ -22,8 +22,7 @@ public class Ticket extends BaseEntity{
     private TradeType tradeType;
     @Enumerated(EnumType.STRING)
     private BuildingType buildingType;
-    @Enumerated(EnumType.ORDINAL)
-    private MonthType monthType;
+    private String day;
     private String date;
     private Double area;
     private Integer floor;

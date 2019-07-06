@@ -250,11 +250,8 @@ public class TicketServiceImpl implements TicketService {
         V1TradeResponse v1TradeResponse = new V1TradeResponse();
         v1TradeResponse.setDate(ticket.getDate()
                                       .substring(0, 4) + "." + ticket.getDate()
-                                                                     .substring(4, 6) + "." + ticket.getMonthType()
-                                                                                                    .getWord());
-        v1TradeResponse.setDateName(/*openApiTradeInfoRepository.findOne(trade.getOpenApiTradeInfoId()).getDay()*/
-                                    ticket.getMonthType()
-                                          .getRange());
+                                                                     .substring(4, 6) + "." + ticket.getDay());
+        v1TradeResponse.setDateName(ticket.getDay());
         v1TradeResponse.setRegionName(ticket.getDongName());
         v1TradeResponse.setName(ticket.getName());
         v1TradeResponse.setFloor(String.valueOf(ticket.getFloor()));
@@ -304,8 +301,7 @@ public class TicketServiceImpl implements TicketService {
     private V1TradeResponse getSimpleData(Ticket ticket) {
         V1TradeResponse v1TradeResponse = new V1TradeResponse();
         v1TradeResponse.setDate(ticket.getDate());
-        v1TradeResponse.setDateName(ticket.getMonthType()
-                                          .getRange());
+        v1TradeResponse.setDateName(ticket.getDay());
         v1TradeResponse.setName(ticket.getName());
 /*
         v1TradeResponse.setFloor(trade.getFloor());

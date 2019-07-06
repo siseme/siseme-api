@@ -877,7 +877,7 @@ public class TradeServiceImpl implements TradeService {
         V1TradeResponse v1TradeResponse = new V1TradeResponse();
         v1TradeResponse.setSince(rent.getSince());
         v1TradeResponse.setDate(rent.getDate());
-        v1TradeResponse.setDateName(rent.getMonthType().getRange());
+        v1TradeResponse.setDateName(rent.getDay());
         v1TradeResponse.setRegionCode(rent.getDongCode());
         v1TradeResponse.setRegionName(rent.getDongName());
         v1TradeResponse.setName(rent.getName());
@@ -903,9 +903,7 @@ public class TradeServiceImpl implements TradeService {
         V1TradeResponse v1TradeResponse = new V1TradeResponse();
         v1TradeResponse.setSince("-");
         v1TradeResponse.setDate(ticket.getDate());
-        v1TradeResponse.setDateName(/*openApiTradeInfoRepository.findOne(trade.getOpenApiTradeInfoId()).getDay()*/
-                                    ticket.getMonthType()
-                                         .getRange());
+        v1TradeResponse.setDateName(ticket.getDay());
         v1TradeResponse.setRegionCode(ticket.getDongCode());
         v1TradeResponse.setRegionName(ticket.getDongName());
         v1TradeResponse.setName(ticket.getName());
@@ -966,9 +964,7 @@ public class TradeServiceImpl implements TradeService {
         V1TradeResponse v1TradeResponse = new V1TradeResponse();
         v1TradeResponse.setSince(trade.getSince());
         v1TradeResponse.setDate(trade.getDate());
-        v1TradeResponse.setDateName(/*openApiTradeInfoRepository.findOne(trade.getOpenApiTradeInfoId()).getDay()*/
-                                    trade.getMonthType()
-                                         .getRange());
+        v1TradeResponse.setDateName(trade.getDay());
         v1TradeResponse.setRegionCode(trade.getDongCode());
         v1TradeResponse.setRegionName(trade.getDongName());
         v1TradeResponse.setName(trade.getName());
@@ -1045,9 +1041,7 @@ public class TradeServiceImpl implements TradeService {
         V1TradeResponse v1TradeResponse = new V1TradeResponse();
         v1TradeResponse.setSince(trade.getSince());
         v1TradeResponse.setDate(trade.getDate());
-        v1TradeResponse.setDateName(/*openApiTradeInfoRepository.findOne(trade.getOpenApiTradeInfoId()).getDay()*/
-                                    trade.getMonthType()
-                                         .getRange());
+        v1TradeResponse.setDateName(trade.getDay());
         v1TradeResponse.setRegionCode(trade.getDongCode());
         v1TradeResponse.setRegionName(trade.getDongName());
         v1TradeResponse.setName(trade.getName());
@@ -1099,8 +1093,7 @@ public class TradeServiceImpl implements TradeService {
         V1TradeResponse v1TradeResponse = new V1TradeResponse();
         v1TradeResponse.setSince(trade.getSince());
         v1TradeResponse.setDate(trade.getDate());
-        v1TradeResponse.setDateName(trade.getMonthType()
-                                         .getRange());
+        v1TradeResponse.setDateName(trade.getDay());
         v1TradeResponse.setName(trade.getName());
         v1TradeResponse.setFloor(String.valueOf(trade.getFloor()));
 /*
