@@ -24,6 +24,7 @@ import me.sise.api.interfaces.v1.dto.response.V1PageResponse;
 import me.sise.api.interfaces.v1.dto.response.V1StatsResponse;
 import me.sise.api.interfaces.v1.dto.response.V1TradeCountResponse;
 import me.sise.api.interfaces.v1.dto.response.V1TradeResponse;
+import me.sise.api.interfaces.v2.dto.DealsCountResponse;
 import me.sise.api.interfaces.v2.dto.StatsResponse;
 import me.sise.api.interfaces.v2.dto.SummaryResponse;
 import org.springframework.data.domain.Page;
@@ -433,6 +434,38 @@ public class TradeServiceImpl implements TradeService {
         v1DetailResponse.setTicketList(ticketList);
         v1DetailResponse.setRentList(rentList);
         return v1DetailResponse;
+    }
+
+    @Override
+    public DealsCountResponse getCount(String startDate, String endDate, String regionCode, String tradeType, String searchType) {
+        RegionType searchRegionType = RegionType.fromString(searchType);
+        TradeType type = TradeType.fromString(tradeType);
+        DateFormat justDay = new SimpleDateFormat("yyyyMMdd");
+        Date baseTime = null;
+        try {
+            baseTime = justDay.parse(justDay.format(new Date()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        DealsCountResponse dealsCountResponse = new DealsCountResponse();
+        if (searchRegionType == RegionType.APT) {
+            dealsCountResponse.setTotalCount(0L);
+            dealsCountResponse.setNewItemCount(0L);
+            dealsCountResponse.setMaxPriceCount(0L);
+        } else if (searchRegionType == RegionType.SIDO) {
+            dealsCountResponse.setTotalCount(0L);
+            dealsCountResponse.setNewItemCount(tradeRepository.countByDateBetweenAndSidoCodeAndCreatedDateTimeGreaterThanEqual(startDate, endDate, regionCode, baseTime));
+            dealsCountResponse.setMaxPriceCount(tradeRepository.countByDateBetweenAndSidoCode(startDate, endDate, regionCode));
+        } else if (searchRegionType == RegionType.GUNGU) {
+            dealsCountResponse.setTotalCount(0L);
+            dealsCountResponse.setNewItemCount(tradeRepository.countByDateBetweenAndGunguCodeAndCreatedDateTimeGreaterThanEqual(startDate, endDate, regionCode, baseTime));
+            dealsCountResponse.setMaxPriceCount(tradeRepository.countByDateBetweenAndGunguCode(startDate, endDate, regionCode));
+        } else {
+            dealsCountResponse.setTotalCount(0L);
+            dealsCountResponse.setNewItemCount(tradeRepository.countByDateBetweenAndDongCodeAndCreatedDateTimeGreaterThanEqual(startDate, endDate, regionCode, baseTime));
+            dealsCountResponse.setMaxPriceCount(tradeRepository.countByDateBetweenAndDongCode(startDate, endDate, regionCode));
+        }
+        return dealsCountResponse;
     }
 
     private V1PageResponse<V1TradeResponse> getRent(String startDate,

@@ -6,6 +6,7 @@ import me.sise.api.interfaces.v1.dto.response.V1PageResponse;
 import me.sise.api.interfaces.v1.dto.response.V1StatsResponse;
 import me.sise.api.interfaces.v1.dto.response.V1TradeCountResponse;
 import me.sise.api.interfaces.v1.dto.response.V1TradeResponse;
+import me.sise.api.interfaces.v2.dto.DealsCountResponse;
 import me.sise.api.interfaces.v2.dto.StatsResponse;
 import me.sise.api.interfaces.v2.dto.SummaryResponse;
 
@@ -46,4 +47,10 @@ public interface TradeService {
     List<SummaryResponse> getSummary(String startDate, String endDate, String regionCode);
 
     V1DetailResponse getDetail(String regionCode, String name, String range);
+
+    DealsCountResponse getCount(String startDate,
+                                String endDate,
+                                String regionCode,
+                                String tradeType,
+                                String searchType);
 }

@@ -5,6 +5,7 @@ import me.sise.api.domain.service.TradeService;
 import me.sise.api.interfaces.v1.dto.response.V1DetailResponse;
 import me.sise.api.interfaces.v1.dto.response.V1PageResponse;
 import me.sise.api.interfaces.v1.dto.response.V1TradeResponse;
+import me.sise.api.interfaces.v2.dto.DealsCountResponse;
 import me.sise.api.interfaces.v2.dto.StatsResponse;
 import me.sise.api.interfaces.v2.dto.SummaryResponse;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -61,5 +62,18 @@ public class TradeController {
                                             @RequestParam(value = "endDate") String endDate,
                                             @RequestParam(value = "regionCode") String regionCode) {
         return tradeService.getSummary(startDate, endDate, regionCode);
+    }
+
+    @GetMapping("/count")
+    public DealsCountResponse getCount(@RequestParam(value = "startDate") String startDate,
+                                       @RequestParam(value = "endDate") String endDate,
+                                       @RequestParam(value = "regionCode") String regionCode,
+                                       @RequestParam(value = "tradeType", required = false, defaultValue = "trade") String tradeType,
+                                       @RequestParam(value = "searchType", defaultValue = "") String searchType) {
+        return tradeService.getCount(startDate,
+                                     endDate,
+                                     regionCode,
+                                     tradeType,
+                                     searchType);
     }
 }

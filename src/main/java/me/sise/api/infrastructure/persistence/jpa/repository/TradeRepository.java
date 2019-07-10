@@ -184,4 +184,22 @@ public interface TradeRepository extends JpaRepository<Trade, Long> {
     Long countByCreatedDateGreaterThanEqual(Date createdDate);
 
     List<Trade> findByDateBetweenAndDongCodeAndName(String startDate, String endDate, String dongCode, String name);
+
+    @Query(value = "SELECT count(*) FROM siseme.trade WHERE (date BETWEEN ?1 AND ?2) AND sido_code = ?3 AND main_price > max_price", nativeQuery = true)
+    Long countByDateBetweenAndSidoCode(String startDate, String endDate, String sidoCode);
+
+    @Query(value = "SELECT count(*) FROM siseme.trade WHERE (date BETWEEN ?1 AND ?2) AND gungu_code = ?3 AND main_price > max_price", nativeQuery = true)
+    Long countByDateBetweenAndGunguCode(String startDate, String endDate, String gunguCode);
+
+    @Query(value = "SELECT count(*) FROM siseme.trade WHERE (date BETWEEN ?1 AND ?2) AND dong_code = ?3 AND main_price > max_price", nativeQuery = true)
+    Long countByDateBetweenAndDongCode(String startDate, String endDate, String dongCode);
+
+    @Query(value = "SELECT count(*) FROM siseme.trade WHERE (date BETWEEN ?1 AND ?2) AND sido_code = ?3 AND created_date >= ?4", nativeQuery = true)
+    Long countByDateBetweenAndSidoCodeAndCreatedDateTimeGreaterThanEqual(String startDate, String endDate, String sidoCode, Date createdDate);
+
+    @Query(value = "SELECT count(*) FROM siseme.trade WHERE (date BETWEEN ?1 AND ?2) AND gungu_code = ?3 AND created_date >= ?4", nativeQuery = true)
+    Long countByDateBetweenAndGunguCodeAndCreatedDateTimeGreaterThanEqual(String startDate, String endDate, String gunguCode, Date createdDate);
+
+    @Query(value = "SELECT count(*) FROM siseme.trade WHERE (date BETWEEN ?1 AND ?2) AND dong_code = ?3 AND created_date >= ?4", nativeQuery = true)
+    Long countByDateBetweenAndDongCodeAndCreatedDateTimeGreaterThanEqual(String startDate, String endDate, String dongCode, Date createdDate);
 }
