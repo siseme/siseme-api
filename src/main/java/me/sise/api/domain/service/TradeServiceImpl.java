@@ -448,24 +448,69 @@ public class TradeServiceImpl implements TradeService {
             e.printStackTrace();
         }
         DealsCountResponse dealsCountResponse = new DealsCountResponse();
-        if (searchRegionType == RegionType.APT) {
-            dealsCountResponse.setTotalCount(0L);
-            dealsCountResponse.setNewItemCount(0L);
-            dealsCountResponse.setMaxPriceCount(0L);
-        } else if (searchRegionType == RegionType.SIDO) {
-            dealsCountResponse.setTotalCount(0L);
-            dealsCountResponse.setNewItemCount(tradeRepository.countByDateBetweenAndSidoCodeAndCreatedDateTimeGreaterThanEqual(startDate, endDate, regionCode, baseTime));
-            dealsCountResponse.setMaxPriceCount(tradeRepository.countByDateBetweenAndSidoCode(startDate, endDate, regionCode));
-        } else if (searchRegionType == RegionType.GUNGU) {
-            dealsCountResponse.setTotalCount(0L);
-            dealsCountResponse.setNewItemCount(tradeRepository.countByDateBetweenAndGunguCodeAndCreatedDateTimeGreaterThanEqual(startDate, endDate, regionCode, baseTime));
-            dealsCountResponse.setMaxPriceCount(tradeRepository.countByDateBetweenAndGunguCode(startDate, endDate, regionCode));
-        } else {
-            dealsCountResponse.setTotalCount(0L);
-            dealsCountResponse.setNewItemCount(tradeRepository.countByDateBetweenAndDongCodeAndCreatedDateTimeGreaterThanEqual(startDate, endDate, regionCode, baseTime));
-            dealsCountResponse.setMaxPriceCount(tradeRepository.countByDateBetweenAndDongCode(startDate, endDate, regionCode));
+        if(type == TradeType.TRADE) {
+            if (searchRegionType == RegionType.APT) {
+                dealsCountResponse.setTotalCount(0L);
+                dealsCountResponse.setNewItemCount(0L);
+                dealsCountResponse.setMaxPriceCount(0L);
+            } else if (searchRegionType == RegionType.SIDO) {
+                dealsCountResponse.setTotalCount(0L);
+                dealsCountResponse.setNewItemCount(tradeRepository.countByDateBetweenAndSidoCodeAndCreatedDateTimeGreaterThanEqual(this.getNewItemCountThresholdEndDate(startDate), endDate, regionCode, baseTime));
+                dealsCountResponse.setMaxPriceCount(tradeRepository.countByDateBetweenAndSidoCode(startDate, endDate, regionCode));
+            } else if (searchRegionType == RegionType.GUNGU) {
+                dealsCountResponse.setTotalCount(0L);
+                dealsCountResponse.setNewItemCount(tradeRepository.countByDateBetweenAndGunguCodeAndCreatedDateTimeGreaterThanEqual(this.getNewItemCountThresholdEndDate(startDate), endDate, regionCode, baseTime));
+                dealsCountResponse.setMaxPriceCount(tradeRepository.countByDateBetweenAndGunguCode(startDate, endDate, regionCode));
+            } else {
+                dealsCountResponse.setTotalCount(0L);
+                dealsCountResponse.setNewItemCount(tradeRepository.countByDateBetweenAndDongCodeAndCreatedDateTimeGreaterThanEqual(this.getNewItemCountThresholdEndDate(startDate), endDate, regionCode, baseTime));
+                dealsCountResponse.setMaxPriceCount(tradeRepository.countByDateBetweenAndDongCode(startDate, endDate, regionCode));
+            }
+        }
+        else if(type == TradeType.TICKET) {
+            if (searchRegionType == RegionType.APT) {
+                dealsCountResponse.setTotalCount(0L);
+                dealsCountResponse.setNewItemCount(0L);
+                dealsCountResponse.setMaxPriceCount(0L);
+            } else if (searchRegionType == RegionType.SIDO) {
+                dealsCountResponse.setTotalCount(0L);
+                dealsCountResponse.setNewItemCount(ticketRepository.countByDateBetweenAndSidoCodeAndCreatedDateTimeGreaterThanEqual(this.getNewItemCountThresholdEndDate(startDate), endDate, regionCode, baseTime));
+                dealsCountResponse.setMaxPriceCount(ticketRepository.countByDateBetweenAndSidoCode(startDate, endDate, regionCode));
+            } else if (searchRegionType == RegionType.GUNGU) {
+                dealsCountResponse.setTotalCount(0L);
+                dealsCountResponse.setNewItemCount(ticketRepository.countByDateBetweenAndGunguCodeAndCreatedDateTimeGreaterThanEqual(this.getNewItemCountThresholdEndDate(startDate), endDate, regionCode, baseTime));
+                dealsCountResponse.setMaxPriceCount(ticketRepository.countByDateBetweenAndGunguCode(startDate, endDate, regionCode));
+            } else {
+                dealsCountResponse.setTotalCount(0L);
+                dealsCountResponse.setNewItemCount(ticketRepository.countByDateBetweenAndDongCodeAndCreatedDateTimeGreaterThanEqual(this.getNewItemCountThresholdEndDate(startDate), endDate, regionCode, baseTime));
+                dealsCountResponse.setMaxPriceCount(ticketRepository.countByDateBetweenAndDongCode(startDate, endDate, regionCode));
+            }
+        }
+        else if(type == TradeType.RENT) {
+            if (searchRegionType == RegionType.APT) {
+                dealsCountResponse.setTotalCount(0L);
+                dealsCountResponse.setNewItemCount(0L);
+                dealsCountResponse.setMaxPriceCount(0L);
+            } else if (searchRegionType == RegionType.SIDO) {
+                dealsCountResponse.setTotalCount(0L);
+                dealsCountResponse.setNewItemCount(rentRepository.countByDateBetweenAndSidoCodeAndCreatedDateTimeGreaterThanEqual(this.getNewItemCountThresholdEndDate(startDate), endDate, regionCode, baseTime));
+                dealsCountResponse.setMaxPriceCount(0L);
+            } else if (searchRegionType == RegionType.GUNGU) {
+                dealsCountResponse.setTotalCount(0L);
+                dealsCountResponse.setNewItemCount(rentRepository.countByDateBetweenAndGunguCodeAndCreatedDateTimeGreaterThanEqual(this.getNewItemCountThresholdEndDate(startDate), endDate, regionCode, baseTime));
+                dealsCountResponse.setMaxPriceCount(0L);
+            } else {
+                dealsCountResponse.setTotalCount(0L);
+                dealsCountResponse.setNewItemCount(rentRepository.countByDateBetweenAndDongCodeAndCreatedDateTimeGreaterThanEqual(this.getNewItemCountThresholdEndDate(startDate), endDate, regionCode, baseTime));
+                dealsCountResponse.setMaxPriceCount(0L);
+            }
         }
         return dealsCountResponse;
+    }
+
+    private String getNewItemCountThresholdEndDate(String startDate) {
+        YearMonth thresholdYearMonth = YearMonth.now().minusMonths(3);
+        return thresholdYearMonth.isAfter(YearMonth.parse(startDate, DateTimeFormatter.ofPattern("yyyyMM"))) ? thresholdYearMonth.format(DateTimeFormatter.ofPattern("yyyyMM")) : startDate;
     }
 
     private V1PageResponse<V1TradeResponse> getRent(String startDate,

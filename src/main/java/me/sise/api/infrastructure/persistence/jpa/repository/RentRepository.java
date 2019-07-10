@@ -213,4 +213,13 @@ public interface RentRepository extends JpaRepository<Rent, Long> {
     List<Rent> findByDateAndGunguCode(String yyyyMmDate, String code);
     List<Rent> findByDateAndDongCode(String yyyyMmDate, String code);
     List<Rent> findByDateBetweenAndDongCodeAndName(String startDate, String endDate, String dongCode, String name);
+
+    @Query(value = "SELECT count(*) FROM rent WHERE (date BETWEEN ?1 AND ?2) AND sido_code = ?3 AND created_date >= ?4", nativeQuery = true)
+    Long countByDateBetweenAndSidoCodeAndCreatedDateTimeGreaterThanEqual(String startDate, String endDate, String sidoCode, Date createdDate);
+
+    @Query(value = "SELECT count(*) FROM rent WHERE (date BETWEEN ?1 AND ?2) AND gungu_code = ?3 AND created_date >= ?4", nativeQuery = true)
+    Long countByDateBetweenAndGunguCodeAndCreatedDateTimeGreaterThanEqual(String startDate, String endDate, String gunguCode, Date createdDate);
+
+    @Query(value = "SELECT count(*) FROM rent WHERE (date BETWEEN ?1 AND ?2) AND dong_code = ?3 AND created_date >= ?4", nativeQuery = true)
+    Long countByDateBetweenAndDongCodeAndCreatedDateTimeGreaterThanEqual(String startDate, String endDate, String dongCode, Date createdDate);
 }
