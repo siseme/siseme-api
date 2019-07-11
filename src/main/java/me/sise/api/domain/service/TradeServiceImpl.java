@@ -1106,9 +1106,9 @@ public class TradeServiceImpl implements TradeService {
         LocalDateTime baseTime = LocalDateTime.of(currentTime.getYear(),
                                                   currentTime.getMonthValue(),
                                                   currentTime.getDayOfMonth(),
-                                                  5,
-                                                  59,
-                                                  59);
+                                                  0,
+                                                  0,
+                                                  0);
         LocalDateTime createdDateTime = trade.getCreatedDateTime();
         boolean isNewData = createdDateTime.isAfter(baseTime);
         v1TradeResponse.setIsNewData(isNewData);
