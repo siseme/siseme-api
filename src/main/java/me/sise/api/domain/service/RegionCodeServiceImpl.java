@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -157,6 +158,39 @@ public class RegionCodeServiceImpl implements RegionCodeService {
         v1RegionResponse.setFullName(region.getFullName());
         v1RegionResponse.setName(byName.getName());
         return v1RegionResponse;
+    }
+
+    @Override
+    public V1RegionResponse getRegionByFullName(String regionName) {
+        List<Region> regionList = regionRepository.findByType(RegionType.SIDO);
+        Optional<Region> sido = regionList.stream()
+                                          .filter(x -> this.compareString(regionName, x.getFullName()))
+                                          .findFirst();
+        Region result = new Region();
+        if (sido.isPresent()) {
+            regionList = regionRepository.findByTypeAndFullNameContaining(RegionType.GUNGU,
+                                                                          sido.get()
+                                                                              .getFullName());
+            Optional<Region> gungu = regionList.stream()
+                                               .filter(x -> this.compareString(regionName, x.getFullName()))
+                                               .findFirst();
+            if (gungu.isPresent()) {
+                regionList = regionRepository.findByTypeAndFullNameContaining(RegionType.DONG,
+                                                                              sido.get()
+                                                                                  .getFullName());
+                Optional<Region> dong = regionList.stream()
+                                                  .filter(x -> this.compareString(regionName, x.getFullName()))
+                                                  .findFirst();
+                result = dong.orElseGet(gungu::get);
+            } else {
+                result = sido.get();
+            }
+        }
+        return this.transform(result);
+    }
+
+    private Boolean compareString(String left, String right) {
+        return left.replace(" ", "").contains(right.replace(" ", ""));
     }
 
     public static <T> Predicate<T> distinctByKey(Function<? super T, Object> keyExtractor) {

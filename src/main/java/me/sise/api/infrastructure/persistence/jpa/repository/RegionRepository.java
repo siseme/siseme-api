@@ -5,6 +5,7 @@ import me.sise.api.infrastructure.persistence.jpa.entity.RegionType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
@@ -25,7 +26,11 @@ public interface RegionRepository extends JpaRepository<Region, Long> {
 
     List<Region> findByCodeLikeAndNameAndType(String code, String name, RegionType type);
 
+    List<Region> findByTypeAndFullNameContaining(RegionType type, String fullName);
+
     Page<Region> findByTypeAndFullNameContaining(RegionType type, String fullName, Pageable pageable);
 
     Page<Region> findByFullNameContaining(String fullName, Pageable pageable);
+
+    Region findByFullName(String fullName);
 }

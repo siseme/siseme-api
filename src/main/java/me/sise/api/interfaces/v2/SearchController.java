@@ -73,6 +73,11 @@ public class SearchController {
         return regionCodeService.getRegionListByTypeAndCodeLike(regionType, regionCode);
     }
 
+    @GetMapping("/regions/name/{regionName}")
+    public V1RegionResponse getRegionByFullName(@PathVariable("regionName") String regionName) {
+        return regionCodeService.getRegionByFullName(regionName);
+    }
+
     @PostMapping("/shorten")
     public V1ShortUrlResponse createShortUrl(@RequestBody ShortUrlCreateRequest request) {
         return new V1ShortUrlResponse(shortUrlService.createShortUrlBySiseme(request.getWebUrl(),

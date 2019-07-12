@@ -19,4 +19,6 @@ public interface RegionCodeService {
     List<V1RegionResponse> getApts(String code, String tradeType);
 
     V1RegionResponse getApt(String dongCode, String name, String tradeType);
+
+    V1RegionResponse getRegionByFullName(String regionName);
 }
